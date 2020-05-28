@@ -25,6 +25,8 @@
 \usetikzlibrary{decorations.pathreplacing} % Adding libraries for decorations and paths
 \usepackage{tikzsymbols} % For amazing symbols ;) https://mirror.hmc.edu/ctan/graphics/pgf/contrib/tikzsymbols/tikzsymbols.pdf 
 \usepackage{blindtext} % To add some blind text in your paper
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 
 %---------------------------------------------------------------------------------
@@ -101,14 +103,10 @@
 %	General information
 %---------------------------------------------------------------------------------
 \title{EE 308: Study of 400 KV Substation} % Adds your title
-\author{
-Satyajeet Deshmukh % Add your first and last name
-    %\thanks{} % Adds a footnote to your title
-    %\institution{YOUR INSTITUTION} % Adds your institution
-  }
+\author{Satyajeet Deshmukh (170002042)}    % Add your first and last name
+ 
 
 \date{\small \today} % Adds the current date to your “cover” page; leave empty if you do not want to add a date
-
 
 %---------------------------------------------------------------------------------
 %	Define what’s in your document
@@ -122,121 +120,124 @@ Satyajeet Deshmukh % Add your first and last name
 
 %\begin{comment}
 \maketitle % Print your title, author name and date; comment if you want a cover page 
-
-\begin{center} % Center text
-    Word count: XXXX
-% How to check words in a LaTeX document: https://www.overleaf.com/help/85-is-there-a-way-to-run-a-word-count-that-doesnt-include-latex-commands
-\end{center}
 %\end{comment}
+
+\begin{center}
+    Source Code: https://www.overleaf.com/read/zsfbpmyscfwm
+\end{center}
 
 %----------------------------------------------------------------------------------------
 % Introduction
 %----------------------------------------------------------------------------------------
 \setcounter{page}{1} % Sets counter of page to 1
 
+\section{Foreword}
+As this is just a study, any originality should not expected. I have tried to phrase things as much as I can where there were conceptual ideas involved, and add in inferences. Direct quotes have been used appropriately and credits have been given to the authors. Direct quotes were inevitable as the information uses certain jargon which even if I paraphrase just looked the same. Paraphrasing will still count as Metaphor Plagiarism if not credited properly. I have tried to cover the main conceptual ideas while skipping over safety, insulation and regulations parts and focused on how to design.
+
 \section{Introduction} % Add a section title
-\subsection{Highlighting} % Add a subsection
-\LaTeX allows you to highlight text in various ways: \textbf{bold}, \textit{italics}, with \textsc{small caps} or \texttt{as a coding font}.\footnote{ This command adds a footnote to your text.} 
+\subsection{Definition: Substation} % Add a subsection
+"Substations are the points in the power network where transmission lines and distribution feeders are connected together through circuit breakers or switches via busbars and transformers. This allows for the control of power flows in the network and general switching operations for maintenance purposes." \citep[Chap.3]{book1}
 
-\subsection{Citing} % Add another subsection
-Citing in \LaTeX is easy. You could easier cite with the text flow like this ``Referring to \citet{collier2004greed} ...''  or at the end of the sentence \cite{collier2004greed}. You can also cite pages like this \citep[55]{collier2004greed}. If you want to add an additional note, you might want to do it this way \citep[cp.][22]{collier2004greed} or like this \citep[cp.][]{collier2004greed}.\\
-\blindtext % Adds some blintext to your text
+This is a very broad definition. We shall further look into more elaborate descriptions for a better understanding.
+
+\subsection{Basics Design Aspects of Substations}
+"Substations are power stations that include power transformers, potential or voltage transformers, current transformers, electrical bus, breakers, switches, and so on.  A substation is a station that includes a power transformer for either stepping up or stepping down the supply voltage depending on whether it is a generating substation or transmission/distribution substation. Generating substations step up the voltage from the generator’s lower voltage to a higher voltage which is more economical for transmitting electric power over longer distances with less power losses caused by the impedance of transmission lines. Transmission substations take the incoming higher voltage from transmission lines and step them down to a lower voltage for distribution systems, which is in preparation for end user customers."
+
+The 400 KV transmission substations will be used to distribute the power to lower voltage distribution substations which it will receive from higher voltage generation substations. 
+
+"Power Substations are filled with large and very expensive equipment. A power utilities’ greatest expense in substations is the power transformer. Other items and equipment involved in designing substations which are less expensive than power transformers are: circuit breakers, potential/current transformers, electric bus, steel structures, foundations, control house, protection \& controls (P\&C), relaying/IEDs, SCADA, control cables, fencing, grounding, real estate, etc."
+
+See reference of \citet{basics-of-power-substations}
+
+\subsection{Indian Power Grid} % Add another subsection
+The nominal Extra High Voltage lines in vogue are ± 800 kV HVDC \& 765 kV, 400 kV, 230/220 kV, 110 kV and 66 kV AC lines. We can calculate that 36\% of the total load is handled by 400 KV substations in India. See exec report of \citet{execsummary2020} in references.
 
 %----------------------------------------------------------------------------------------
-% Literature review
+% Literature
 %----------------------------------------------------------------------------------------
 
-\section{Literature review}
+\section{Designing a new Substation}
 
-\blindtext % Some blind text
+\subsection{Reading the guidelines}
 
-\subsection{Some subsection}
-\blindtext % Some more blind text
+Before starting the load calculations it is important to go through the regional limits of voltage levels.  
 
-\subsubsection{And a subsubsection}
-\blindtext % Even more blind text
+"Normal thermal ratings and normal voltage limits represent equipment limits
+that can be sustained on continuous basis. Emergency thermal ratings and emergency voltage limits represent equipment limits that can be tolerated for a relatively short time which may be one hour to two hour depending on design of the equipment." 
 
-And here you have a list with dots and dashes:
+They state nominal rating as 400 KV rms. Maximum as 420 and minimum as 380 under normal operating conditions. Emergency ratings are maximum at 420 and minimum at 372. 
+
+"The system shall be planned based on one or more of the following power
+system studies, as per requirements:
+i) Power Flow Studies
+ii) Short Circuit Studies
+iii) Stability Studies (including transient stability and voltage stability)
+iv) EMTP studies (for switching / dynamic over-voltages, insulation
+coordination, etc) "
+
+Going through them  all is beyond the scope for this study. We shall take a peek into the power flow studies as it is simple and essential to understand.
+
+For more information see \citet{manualontransmission}.
+ 
+\subsection{Load Flow Power Studies}
+
+The next steps are to calculate the total power coming in from the generators. Then balance it with the power going out for distribution and power being used for the maintenance of the substation itself.
+
+\includegraphics[scale=0.3]{substation-load-distribution-diagram}
+
+Figure: Substation load distribution diagram from \citet{400kVSubstationDesign}
+
+In the figure we can see how an elementary analysis of power is performed. Though it is not sufficient. We will need to use computer models and simulations to ensure that our system is stable and following the regulations set by the boards.
+
+\subsection{Selection of Site}
+\citet{400kVSubstationDesign} describes the selection of site in detail. I will cover it briefly here in my own words.
+
+Selection of the site for the substation is one of the most important activities which requires meticulous planning, technical knowledge, understanding of geography, environment, economics, and social aspects.
+
 \begin{itemize}
-    \item Dots 
-    \item[-] or dashes?
+  \item The site should be as close to the load centre as possible
+  \item It should be ideally rectangular for proper fitting of bus bars, and have an area of 20 hectares for a 400 KV substation.
+  \item Preferably levelled already to save costs in levelling.
+  \item It should be away from any present human settlement, or activity like dumping grounds, and not in a zone of future development activities.
+  \item There should be good road access to the site.
+  \item There should not be an airport in vicinity and  it should be above the flood levels so that water doesn't fill up.
 \end{itemize}
 
-and an enumerated list:
+\subsection{Substation Configurations}
 
-\begin{enumerate}
-    \item With numbers...
-    \item Which is also nice \Winkey
-\end{enumerate}
+Each transmission substation consists of the following key elements:
 
-%---------------------------------------------------------------------------------
-% Theory
-%---------------------------------------------------------------------------------
+\begin{itemize}
+    \item Incomers: Feed power into the substation.
+    \item Bus bars: Connect the different circuits together.
+    \item Bus coupler: Allow different bus bars to be connected together.
+    \item Feeders: Take power out of the substation.
+\end{itemize}
 
-\section{Theory}
+They can be connected in various ways according to the requirement of the project for load and local conditions, flexibility of operations, maintenance and safety, and economic considerations like cost.
 
-If you want to add mathematical equations, this may be done either this way: $a +  b \neq \frac{a}{b}$. You may also add Greek letters like this: $\alpha$.\\ 
+Common configurations are as follow:
+\begin{itemize}
+    \item Single bus bar substation: Single incomer is connected to single bus bar which distributes power to multiple feeders.
+    \item Split bus bar substation: Two incomers are connected to two separate bus bars. In normal configurations they both keep supply only their own bus bar. If one one of the incomer fails causing an emergency, the two busbars are coupled and energized by only one incomer.
+    \item Double bus bar station: There are two incomers and four busbars. We can change which bus bar the feeder is connected to easily.This provides huge flexibility and convenience while doing maintenance.
+    \item Double main and auxiliary bus bar: This is an improvement over the double bus bar by providing Auxiliary bus, bus coupler breaker and Auxiliary bus isolators which are used during maintenance.
+    \item Ring: "The ring bus bar offers increased security compared to the single bus bar arrangement since alternative power flow routes around the ring bus bar are available." 
+    
+    Section material is based on readings from \citet{book1}
+    
+\end{itemize}
 
-\blindtext % Some blind text
+\subsection{Substation Auxiliary Power Supplies}
 
-% Including figures
-\begin{figure}[htpb!] % Defines figure environment
-    \centering % Centers your figure
-\includegraphics[scale=0.8]{figure/figure.png} % Includes your figure and defines the size
-    \caption{A circle} % For your caption
-    \label{fig:my_label} % If you want to label your figure for in-text references
-\end{figure}
-
-\blindtext % Some blind text
-
-% Including tables
-%   Simple table
-\begin{table}[] % Add htpb! to make sure that table is where it should be
-    \centering
-    \begin{tabular}{c|c}
-        Saturday & Sunday \\
-        12 & 18
-    \end{tabular}
-    \caption{Overview of the weekend}% Caption for tables
-    \label{tab:weekend} % Reference for in-line referencing
-\end{table}
-
-%   Table with table generator
-\begin{table}[] % Add htpb! to make sure that table is where it should be
-    \centering
-\begin{tabular}{@{}lll@{}}
-\toprule
-  & A   & B \\ \midrule
-C & 100 & 2 \\
-D & 3   & 5 \\ \bottomrule
-\end{tabular}
-    \caption{Random numbers} % Caption for tables
-    \label{tab:numbers} % Reference for in-line referencing
-\end{table}
-
-%----------------------------------------------------------------------------------------
-% Research design
-%----------------------------------------------------------------------------------------
-
-\section{Research Design}
-
-\blindtext % Some blind text
-
-%----------------------------------------------------------------------------------------
-% Analysis
-%----------------------------------------------------------------------------------------
-
-\section{Analysis}
-
-\blindtext % Some blind text
-
-%----------------------------------------------------------------------------------------
-% Conclusion
-%----------------------------------------------------------------------------------------
+Every substations includes auxiliary power supplies which may consist of batteries which power DC and AC circuits via circuitry. Batteries are charged regularly using the some of the incoming power from generators. "AC power is required for substation building small power, lighting, heating and ventilation,
+some communications equipment, switchgear operating mechanisms, anticondensation heaters and motors. 
+DC power is used to feed essential services such as circuit breaker trip coils and associated relays, supervisory control and data acquisition and communications equipment."
+from \citet{book1}
 
 \section{Conclusion}
 
-\blindtext % Some blind text
+Thus, we have seen 400 KV substations that are used for transmission can range from simple to complex. They may use simple bus bar designs or may be loaded with sophisticated protection and control equipment. 
 
 %----------------------------------------------------------------------------------------
 % Bibliography
@@ -250,36 +251,6 @@ D & 3   & 5 \\ \bottomrule
 \bibliographystyle{apsr} % Defines your bibliography style
 
 % For citing, please see this sheet: http://merkel.texture.rocks/Latex/natbib.php
-
-%----------------------------------------------------------------------------------------
-% Appendix
-%----------------------------------------------------------------------------------------
-\newpage % Includes a new page
-\section*{Appendix} % Stars disable section numbers
-% \appendix % Uncomment if you want to add an "automatic" appendix
-\pagenumbering{Roman} % Changes page numbering to Roman page numbers
-
-\blindtext % Adds some blind text
-
-%----------------------------------------------------------------------------------------
-% Declaration
-%----------------------------------------------------------------------------------------
-\newpage % Includes a page break
-\thispagestyle{empty} % Leaves the page style empty (no page number, no header, no footer)
-\section*{Statutory Declaration} % Stars disable section numbers
-
-\begin{otherlanguage}{german}
-Hiermit versichere ich, dass diese Arbeit von mir pers\"{o}nlich verfasst ist und dass ich keinerlei fremde Hilfe in Anspruch genommen habe. Ebenso versichere ich, dass diese Arbeit oder Teile daraus weder von mir selbst noch von anderen als Leistungsnachweise andernorts eingereicht wurden. W\"{o}rtliche oder sinngem\"{a}{\ss}e \"{U}bernahmen aus anderen Schriften und Ver\"{o}ffentlichungen in gedruckter oder elektronischer Form sind gekennzeichnet. S\"{a}mtliche Sekund\"{a}rliteratur und sonstige Quellen sind nachgewiesen und in der Bibliographie aufgef\"{u}hrt. Das Gleiche gilt f\"{u}r graphische Darstellungen und Bilder sowie f\"{u}r alle Internet-Quellen. Ich bin ferner damit einverstanden, dass meine Arbeit zum Zwecke eines Plagiatsabgleichs in elektronischer Form anonymisiert versendet und gespeichert werden kann. Mir ist bekannt, dass von der Korrektur der Arbeit abgesehen und die Pr\"{u}fungsleistung mit nicht ausreichend bewertet werden kann, wenn die Erkl\"{a}rung nicht erteilt wird.
-\end{otherlanguage}
-
-\vspace*{1in} % Adds extra space between two paragraphs
-
-\noindent I hereby declare that the paper presented is my own work and that I have not called upon the help of a third party. In addition, I affirm that neither I nor anybody else has submitted this paper or parts of it to obtain credits elsewhere before. I have clearly marked and acknowledged all quotations or references that have been taken from the works of others. All secondary literature and other sources are marked and listed in the bibliography. The same applies to all charts, diagrams and illustrations as well as to all Internet resources. Moreover, I consent to my paper being electronically stored and sent anonymously in order to be checked for plagiarism. I am aware that the paper cannot be evaluated and may be graded ``failed'' (``nicht ausreichend'') if the declaration is not made.\\
-
-%\vspace*{1in} % Adds extra space
-
-% Add field for signature, date, and place
-\hfill \signature{} 
 
 
 %---------------------------------------------------------------------------------
